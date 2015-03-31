@@ -102,13 +102,15 @@ rewrite H2.
 by rewrite Bool.orb_true_r.
 Qed.
 
+Definition contains_all n t t' :=
+        contains n t' /\ (forall m, contains m t -> contains m t')
+                      /\ (forall m, contains m t' -> (m == n) || contains m t).
+
 Definition add_in_search_tree (t : tree) (n : nat) :
   is_search_tree t -> 
-  { t' | is_search_tree t' & 
-        contains n t' /\ (forall (m : nat), contains m t -> contains m t')
-                      /\ (forall (m : nat), contains m t' -> (m == n) || contains m t)
-  }.
+  { t' | is_search_tree t' & contains_all n t t' }.
 Proof.
+unfold contains_all.
 elim t.
 - move=> _.
   exists (node n leaf leaf)=> //.
@@ -170,7 +172,7 @@ exists (node x nl r)=> /=.
   - move=> _.
     apply natEq in X.
     by rewrite X.
-  by apply containsInLT.
+  apply containsInLT.
 split.
 - rewrite NLcN.
   by repeat (rewrite Bool.orb_true_r).
