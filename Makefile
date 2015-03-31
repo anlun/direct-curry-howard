@@ -1,4 +1,4 @@
-MODULES      := Smallest Insort MergeSort Bitree 
+MODULES      := GeneralInduction Smallest Insort MergeSort Bitree 
 VS           := $(MODULES:%=./%.v)
 RELEASE      := $(VS) Makefile
 ssr.pname	    := $(SSRCOQ_LIB)
